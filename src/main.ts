@@ -1,7 +1,10 @@
-import express, {Request, Response} from "express";
+import "reflect-metadata";
+import { container } from './core/container.core';
+import { server } from "./core/server.";
+import { TYPES } from './core/types.core';
 
-const app = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => res.send("Hello World!"));
-app.listen(port, () => console.log(`listen on http://localhost:${port}/`));
+server
+    .build()
+    .listen(port, () => console.log(`Listen on http://localhost:${port}/`));
