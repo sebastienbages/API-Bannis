@@ -9,6 +9,7 @@ export class HomeController {
 
     constructor(@inject(TYPES.Logger) private readonly _logger: Logger) {
     }
+
     @httpGet("")
     public index(req: Request, res: Response) {
         return res.send("Hello world");
