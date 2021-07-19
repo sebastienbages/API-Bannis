@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { controller, httpGet } from "inversify-express-utils";
 import { inject } from "inversify";
 import { TYPES } from "../core/types.core";
-import {Logger} from "../services/logger.service";
+import { Logger } from "../services/logger.service";
 
 @controller("/")
 export class HomeController {

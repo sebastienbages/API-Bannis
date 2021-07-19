@@ -4,8 +4,8 @@
   "description": "API for Website & Bot discord \"Les Bannis\"",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && node dist/src/main.js -r dotenv/config",
-    "nodemon": "nodemon"
+    "start": "tsc && node --experimental-modules dist/src/main.js -r dotenv/config",
+    "start:watch": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "inversify": "^5.1.1",
     "inversify-express-utils": "^6.3.2",
+    "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2",
     "typeorm": "^0.2.34"

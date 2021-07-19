@@ -10,7 +10,7 @@ export class DatabaseService {
     public constructor(@inject(TYPES.Logger) private readonly logger: Logger) {}
 
     public async getConnection(): Promise<Connection> {
-        if (DatabaseService.connection) {
+        if (DatabaseService.connection instanceof Connection) {
             return DatabaseService.connection;
         }
 

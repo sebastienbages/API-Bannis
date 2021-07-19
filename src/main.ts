@@ -1,7 +1,7 @@
+// import { container } from './core/container.core';
 import "reflect-metadata";
-import { container } from './core/container.core';
 import { server } from "./core/server.";
-import { TYPES } from './core/types.core';
+// import { TYPES } from './core/types.core';
 
 const port = process.env.PORT || 3000;
 
