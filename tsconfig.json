@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "rootDir": "./",
-    "outDir": "dist",
-    "sourceMap": true,
-    "module": "commonjs",
-    "types": ["node"],
     "target": "es5",
-    "esModuleInterop": true,
     "lib": ["es6"],
+    "types": ["reflect-metadata"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "rootDir": "./",
+    "outDir": "dist",
+    "sourceMap": true
   }
 }
