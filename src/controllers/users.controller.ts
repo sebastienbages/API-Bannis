@@ -1,3 +1,4 @@
+import { validate } from "class-validator";
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import {controller, httpDelete, httpGet, httpPost, httpPut, requestBody, requestParam} from "inversify-express-utils";
@@ -28,6 +29,12 @@ export class UsersController {
         const user = new User();
         user.email = body.email;
         user.password = body.password;
+
+        const errors = await validate(user);
+        if (errors.length !== 0) {
+            return res.status(400).json({ errors });
+        }
+
         await repository.save(user);
         return res.sendStatus(201);
     }
@@ -49,6 +56,12 @@ export class UsersController {
         const user = await repository.findOneOrFail(userId);
         user.email = body.email ?? user.email;
         user.password = body.password ?? user.password;
+
+        const errors = await validate(user);
+        if (errors.length !== 0) {
+            return res.status(400).json({ errors });
+        }
+
         await repository.save(user);
         return res.sendStatus(204);
     }
