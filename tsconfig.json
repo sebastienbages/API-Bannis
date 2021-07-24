@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es6"],
-    "types": ["reflect-metadata"],
+    "types": ["node", "mocha"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -10,5 +10,6 @@
     "rootDir": "./",
     "outDir": "dist",
     "sourceMap": true
-  }
+  },
+  "exclude": ["./**/*.spec.ts"]
 }
