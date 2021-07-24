@@ -1,10 +1,11 @@
 import { validate } from "class-validator";
 import { Request, Response } from "express";
 import { inject } from "inversify";
-import {controller, httpDelete, httpGet, httpPost, httpPut, requestBody, requestParam} from "inversify-express-utils";
+import { controller, httpDelete, httpGet, httpPost, httpPut, requestBody, requestParam } from "inversify-express-utils";
 import { TYPES } from "../core/types.core";
-import {User, UserRepository} from "../entities/user.entity";
+import { User, UserRepository } from "../entities/user.entity";
 import { DatabaseService } from "../services/database.service";
+import { FetchUserMiddleware } from "../middlewares/fetchUser.middleware";
 
 interface UserBody {
     email: string;
@@ -18,7 +19,6 @@ export class UsersController {
     @httpGet("/")
     public async index(req: Request, res: Response) {
         const userRepository = await this.database.getRepository(UserRepository);
-
         const users = await userRepository.find();
         return res.json(users);
     }
@@ -39,38 +39,33 @@ export class UsersController {
         return res.sendStatus(201);
     }
 
-    @httpGet("/:userId")
-    public async show(@requestParam("userId") userId: number) {
-        const repository = await this.database.getRepository(UserRepository);
-        return repository.findOneOrFail(userId);
+    @httpGet("/:userId", TYPES.FetchUserMiddleware)
+    public async show(req: any) {
+        return req.user;
     }
 
-    @httpPut("/:userId")
+    @httpPut("/:userId", TYPES.FetchUserMiddleware)
     public async update(
         @requestBody() body: UserBody,
-        @requestParam("userId") userId: number,
-        req: Request,
+        req: any,
         res: Response
     ) {
-        const repository = await this.database.getRepository(UserRepository);
-        const user = await repository.findOneOrFail(userId);
-        user.email = body.email ?? user.email;
-        user.password = body.password ?? user.password;
+        req.user.email = body.email ?? req.user.email;
+        req.user.password = body.password ?? req.user.password;
 
-        const errors = await validate(user);
+        const errors = await validate(req.user);
         if (errors.length !== 0) {
             return res.status(400).json({ errors });
         }
-
-        await repository.save(user);
+        const repository = await this.database.getRepository(UserRepository);
+        await repository.save(req.user);
         return res.sendStatus(204);
     }
 
     @httpDelete("/:userId")
-    public async destroy(@requestParam("userId") userId: number, req: Request, res: Response) {
+    public async destroy(@requestParam("userId") userId: number, req: any, res: Response) {
         const repository = await this.database.getRepository(UserRepository);
-        const user = await repository.findOneOrFail(userId);
-        await repository.delete(user);
+        await repository.delete(req.user);
         return res.sendStatus(204);
     }
 }
