@@ -7,6 +7,7 @@ import {
     PrimaryGeneratedColumn,
     Repository,
 } from "typeorm";
+import {hashPassword} from "../utils/password.utils";
 
 @Entity()
 export class User {
@@ -21,7 +22,13 @@ export class User {
 
     @IsDefined()
     @Column()
-    public password!: string;
+    hashedPassword: string;
+
+    set password(password) {
+        if (password) {
+            this.hashedPassword = hashPassword(password, process.env.HASH_SALT);
+        }
+    }
 
     @BeforeInsert()
     @BeforeUpdate()
