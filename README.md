@@ -1,2 +1,3 @@
-# API-Bannis
-API pour le site Web et le Bot du serveur "Les Bannis"
+Création d'une API REST avec l(environnement NodeJs pour l'apprentissage.
+
+En cours.
